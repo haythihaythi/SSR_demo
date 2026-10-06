@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+:root {
+  --bg-dark: #0a0a0c;
+  --bg-card: #131317;
+  --bg-card-hover: #1a1a22;
+  --bg-glass: rgba(20, 20, 26, 0.75);
+  
+  --yellow-primary: #FFD700;
+  --yellow-bright: #FFE55C;
+  --yellow-amber: #FFB700;
+  --yellow-glow: rgba(255, 215, 0, 0.25);
+  --yellow-glow-strong: rgba(255, 215, 0, 0.5);
+  
+  --text-main: #f0f0f5;
+  --text-muted: #9a9ab0;
+  --text-dark: #0a0a0c;
+
+  --border-dim: #252530;
+  --border-yellow: rgba(255, 215, 0, 0.4);
+
+  --font-heading: 'Orbitron', 'Rajdhani', sans-serif;
+  --font-sub: 'Rajdhani', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0c;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--yellow-amber);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--yellow-bright);
+}
+
+/* Carbon & Tech Background Patterns */
+.bg-grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(255, 215, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 215, 0, 0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.bg-radial-glow {
+  background: radial-gradient(circle at 50% 20%, rgba(255, 215, 0, 0.12) 0%, transparent 60%);
+}
+
+.hazard-stripe {
+  background: repeating-linear-gradient(
+    -45deg,
+    #FFD700,
+    #FFD700 12px,
+    #0a0a0c 12px,
+    #0a0a0c 24px
+  );
+}
+
+.hazard-border-top {
+  position: relative;
+}
+.hazard-border-top::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: repeating-linear-gradient(
+    -45deg,
+    #FFD700,
+    #FFD700 10px,
+    #0a0a0c 10px,
+    #0a0a0c 20px
+  );
+}
+
+/* Glow Utilities */
+.text-glow-yellow {
+  text-shadow: 0 0 15px var(--yellow-glow-strong), 0 0 30px var(--yellow-glow);
+}
+
+.box-glow-yellow {
+  box-shadow: 0 0 20px var(--yellow-glow);
+}
+
+.box-glow-yellow-hover:hover {
+  box-shadow: 0 0 25px var(--yellow-glow-strong);
+  border-color: var(--yellow-primary);
+}
+
+/* Pulse animation */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.8;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.7);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2.5s infinite ease-in-out;
+}
+
+/* Radar Sweep Animation */
+@keyframes radarSweep {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.radar-sweep-line {
+  transform-origin: center center;
+  animation: radarSweep 3s linear infinite;
+}
