@@ -1,113 +1,171 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import {
-  Cpu,
-  Zap,
-  Camera,
-  Upload,
   Play,
-  User
+  BatteryCharging
 } from 'lucide-react';
+import hbtulogo from '../images/hmawbi _logo.png';
+import haythi from '../images/haythi.png';
+import thawtar from '../images/thawtar.png';
+import zml from '../images/zml.png';
+import thelthu from '../images/thelthu.png';
+import tndmk from '../images/tndmk.JPG';
+import shin from '../images/shin.png';
+import shein from '../images/shein.png';
+import hsu from '../images/hsu.png';
+import car from '../images/car.png';
+import hha from '../images/hha.png';
+import demoVid from '../images/demo_vid.mp4';
+import kkk from '../images/kkk.png';
+
+
+
+// Custom SVG Icons for Software & Hardware devices
+const Esp32CamIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <rect x="3" y="3" width="18" height="18" rx="3" />
+    <circle cx="12" cy="12" r="4" />
+    <circle cx="12" cy="12" r="1.5" fill="currentColor" />
+    <path d="M7 7h.01M17 7h.01M7 17h.01M17 17h.01" />
+  </svg>
+);
+
+const MotorDriverIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <rect x="4" y="4" width="16" height="16" rx="2" />
+    <rect x="8" y="8" width="8" height="8" fill="currentColor" opacity="0.4" />
+    <path d="M1 8h3M1 12h3M1 16h3M20 8h3M20 12h3M20 16h3M8 1v3M12 1v3M16 1v3M8 20v3M12 20v3M16 20v3" />
+  </svg>
+);
+
+
+
+const ServoMotorIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <rect x="3" y="9" width="18" height="10" rx="2" />
+    <circle cx="8.5" cy="14" r="3" />
+    <path d="M8.5 11L14.5 5m0 0l3 3m-3-3l-2.5 2.5" strokeWidth="2.5" />
+    <circle cx="17" cy="12" r="1" fill="currentColor" />
+  </svg>
+);
+
+const DcMotorIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <circle cx="12" cy="12" r="7" />
+    <circle cx="12" cy="12" r="2.5" fill="currentColor" />
+    <path d="M12 1v4M12 19v4M1 12h4M19 12h4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83" />
+  </svg>
+);
+
+const BuckConverterIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+  </svg>
+);
+
+const ArduinoIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M6.5 15a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9z" />
+    <path d="M17.5 15a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9z" />
+    <path d="M5 10.5h3M16 10.5h3M17.5 9v3" />
+  </svg>
+);
+
+const WebStackIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <polyline points="16 18 22 12 16 6" />
+    <polyline points="8 6 2 12 8 18" />
+    <line x1="14" y1="4" x2="10" y2="20" />
+  </svg>
+);
+
+const PythonIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <path d="M11.898 0C5.72 0 6.1 2.686 6.1 2.686l.007 2.784h5.884v.835H3.722S0 5.867 0 12.083c0 6.216 3.243 5.972 3.243 5.972h1.932v-2.73s-.103-3.262 3.21-3.262h5.513s3.076.05 3.076-2.983V3.251S17.472 0 11.898 0zM8.707 1.836a1.05 1.05 0 1 1 0 2.1 1.05 1.05 0 0 1 0-2.1zm3.395 22.164c6.178 0 5.798-2.686 5.798-2.686l-.007-2.784h-5.884v-.835h8.267S24 18.133 24 11.917c0-6.216-3.243-5.972-3.243-5.972h-1.932v2.73s.103 3.262-3.21 3.262H10.1s-3.076-.05-3.076 2.983v5.932S6.528 24 12.102 24zm3.191-1.836a1.05 1.05 0 1 1 0-2.1 1.05 1.05 0 0 1 0 2.1z"/>
+  </svg>
+);
 
 interface TeamMember {
   id: number;
   name: string;
   role: string;
+  image: string;
 }
 
 export default function App() {
-  // Placeholders for 2 project pictures
-  const [picture1, setPicture1] = useState<string>('/car1.png');
-  const [picture2, setPicture2] = useState<string>('/car2.png');
+  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Hero Video Placeholder state
-  const [heroVideo, setHeroVideo] = useState<string | null>(null);
-
-  // Team Member Photos state
-  const [teamPhotos, setTeamPhotos] = useState<Record<number, string>>({});
-
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>, pictureNum: 1 | 2) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      if (pictureNum === 1) setPicture1(url);
-      else setPicture2(url);
-    }
-  };
-
-  const handleVideoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setHeroVideo(URL.createObjectURL(file));
-    }
-  };
-
-  const handleTeamPhotoUpload = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setTeamPhotos((prev) => ({ ...prev, [id]: url }));
+  const handlePlay = () => {
+    if (videoRef.current) {
+      videoRef.current.play();
+      setIsPlaying(true);
     }
   };
 
   const hardwareDevices = [
     {
       name: 'ESP32 CAM module',
-      icon: Cpu,
+      icon: Esp32CamIcon,
       description: 'Rover ၏ ပင်မ Controller အဖြစ် အသုံးပြုပြီး Wi-Fi မှတဆင့် မော်တာများကို ထိန်းချုပ်ခြင်းနှင့် Real-time Video Stream ပေးပို့ခြင်းတို့အတွက် အဓိက အသုံးပြုပါသည်။'
     },
     {
       name: 'L298 Motor Driver',
-      icon: Cpu,
+      icon: MotorDriverIcon,
       description: 'ESP32 CAM မှ ပေးပို့သော Control Signal များကို လက်ခံ၍ DC Motor များ၏ လှည့်ပတ်မှု လမ်းကြောင်းနှင့် အမြန်နှုန်းကို မောင်းနှင်ပေးသည့် H-Bridge Motor Driver ဖြစ်ပါသည်။'
     },
     {
       name: 'Servo Motors',
-      icon: Cpu,
-      description: 'ESP32-CAM Camera ကို လိုအပ်သော ထောင့်ချိုးအတိုင်း အနီးကပ် သို့မဟုတ် ဘယ်/ညာ၊ အထက်/အောက် တိကျစွာ လှည့်ပတ်ကြည့်ရှုနိုင်စေရန် အသုံးပြုပါသည်။'
+      icon: ServoMotorIcon,
+      description: 'ESP32-CAM Camera ကို လိုအပ်သော ထောင့်ချိုးအတိုင်း အနီးကပ် သို့မဟုတ် အထက်/အောက် တိကျစွာ လှည့်ပတ်ကြည့်ရှုနိုင်စေရန် အသုံးပြုပါသည်။ ဒီ project မှာတော့ အထက်/အောက် vertical tilt servo တလုံးဘဲသုံးထားသည်။'
     },
     {
       name: 'DC Motors',
-      icon: Cpu,
+      icon: DcMotorIcon,
       description: 'Rover ၏ ဘီးများကို အားကောင်းစွာ လှည့်ပတ်မောင်းနှင်၍ ရှေ့၊ နောက်၊ ဘယ်၊ ညာ ချောမွေ့စွာ သွားလာနိုင်စေရန် အသုံးပြုသော Gear Motors မျာဖြစ်ပါသည်။'
     },
     {
       name: 'Li-ion Battery Pack',
-      icon: Zap,
-      description: 'Rover စနစ်တစ်ခုလုံး (ESP32-CAM၊ Motor Driver နှင့် Motors များ) လည်ပတ်နိုင်ရန် လိုအပ်သော တည်ငြိမ်သည့် လျှပ်စစ်ပါဝါကို သိုလှောင် ထောက်ပံ့ပေးပါသည်။'
+      icon: BatteryCharging,
+      description: 'Rover စနစ်တစ်ခုလုံး (ESP32-CAM၊ Motor Driver နှင့် Motors များ) လည်ပတ်နိုင်ရန် လိုအပ်သော တည်ငိမ်သည့် လျှပ်စစ်ပါဝါကို သိုလှောင် ထောက်ပံ့ပေးပါသည်။'
     },
     {
       name: 'Buck Converter',
-      icon: Zap,
+      icon: BuckConverterIcon,
       description: 'Battery Pack မှ ထွက်ရှိသော မြင့်မားသည့် ဗို့အားကို ESP32-CAM နှင့် အခြား Sensitive Electronic Subsystems များအတွက် သင့်လျော်သည့် 5V တည်ငြိမ်ဗို့အားသို့ လျှော့ချပေးပါသည်။'
     },
     {
       name: 'Arduino IDE(C++)',
-      icon: Cpu,
+      icon: ArduinoIcon,
       description: 'Arduino IDEသည် ESP32-CAM ကို ပရိုဂရမ်ရေးသားပြီး ညွှန်ကြားချက်များ ပေးပို့နိုင်ရန် အသုံးပြုသော IDE တစ်ခုဖြစ်ပါသည်။'
     },
     {
       name: 'HTML, CSS, JavaScript',
-      icon: Zap,
+      icon: WebStackIcon,
       description: 'Rover ၏ Web Dashboard Interface ကို ရေးဆွဲတည်ဆောက်ရန်နှင့် Live Video Stream ကို Browser မှတဆင့် ကြည့်ရှု ထိန်းချုပ်နိုင်ရန် အသုံးပြုထားပါသည်။'
     },
     {
       name: 'Python',
-      icon: Zap,
+      icon: PythonIcon,
       description: 'Rover ၏ Server-side Processing, Data Processing သို့မဟုတ် Image / Video Processing လုပ်ငန်းစဉ်များအတွက် အသုံးပြုထားပါသည်။'
+    },
+    {
+      name: 'FTDI Programmer',
+      icon: MotorDriverIcon,
+      description: 'FTDI Programmer ဆိုသည်မှာ ကွန်ပျူတာမှ USB အချက်ပြလှိင်းများကို မိုက်ခရိုကွန်ထရိုလာများ နားလည်သော Serial (UART) ဒေတာအဖြစ် ပြောင်းလဲပေးသည်။'
     }
   ];
 
   const teamMembers: TeamMember[] = [
-    { id: 1, name: 'Shein Phyo Maung Maung', role: 'Hardware Assembler' },
-    { id: 2, name: 'Htun Htun Aung', role: 'Software developer' },
-    { id: 3, name: 'Shin Thant Wai Lin', role: 'Hardware Assembler' },
-    { id: 4, name: 'Hsu Pyae', role: 'Researcher' },
-    { id: 5, name: 'Thant Nadi Moe Khin', role: 'Researcher' },
-    { id: 6, name: 'Haythi Min Soe', role: 'Software developer' },
-    { id: 7, name: 'Zin Moe Lwin', role: 'Software developer' },
-    { id: 8, name: 'Thel Thu Thu Htun', role: 'Software developer' },
-    { id: 9, name: 'Thawtar Swe Zin', role: 'Designer' },
-    { id: 10, name: 'Khin Khin Kyaw', role: 'Designer' }
+    { id: 1, name: 'Shein Phyo Maung Maung', role: 'Tech Lead', image: shein },
+    { id: 2, name: 'Htun Htun Aung', role: 'Backend developer', image: hha },
+    { id: 3, name: 'Shin Thant Wai Lin', role: 'Hardware Assembler', image: shin },
+    { id: 6, name: 'Haythi Min Soe', role: 'Frontend developer', image: haythi },
+    { id: 7, name: 'Zin Moe Lwin', role: 'Hardware Assembler', image: zml },
+    { id: 8, name: 'Thel Thu Thu Htun', role: 'Project Designer', image: thelthu },
+    { id: 9, name: 'Thawtar Swe Zin', role: 'Project Designer', image: thawtar },
+    { id: 10, name: 'Khin Khin Kyaw', role: 'Member', image: kkk },
+    { id: 4, name: 'Hsu Pyae', role: 'Member', image: hsu },
+    { id: 5, name: 'Thant Nadi Moe Khin', role: 'Member', image: tndmk }
   ];
 
   return (
@@ -117,16 +175,16 @@ export default function App() {
       <main className="w-full flex-grow space-y-20 sm:space-y-24 pb-24 flex flex-col items-center">
 
         {/* ==================== 1. OVERVIEW / HERO SECTION ==================== */}
-        <section id="overview" className="w-full relative overflow-hidden pt-12 pb-20 bg-grid-pattern bg-radial-glow border-b border-[#1f1f2a] flex justify-center">
-          <div className="w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        <section id="overview" className="w-full relative overflow-hidden pt-16 sm:pt-20 lg:pt-24 pb-20 lg:pb-32 bg-grid-pattern bg-radial-glow border-b border-[#1f1f2a] flex justify-center">
+          <div className="w-full max-w-7xl px-6 sm:px-10 lg:px-12">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
 
               {/* Left Column: Text & Badges */}
-              <div className="lg:col-span-4 space-y-6">
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight font-['Orbitron'] leading-tight">
-                  <span className="text-[#FFD700] text-glow-yellow">S</span>mart <br />
-                  <span className="text-[#FFD700] text-glow-yellow">S</span>urveillance <br />
-                  <span className="text-[#FFD700] text-glow-yellow">R</span>over
+              <div className="lg:col-span-4 space-y-6 ml-4">
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#FFD700] tracking-tight font-['Orbitron'] leading-tight">
+                  <span className="text-[#FFD700] text-glow-yellow">S</span><span className="text-white">mart</span> <br />
+                  <span className="text-[#FFD700] text-glow-yellow">S</span><span className="text-white">urveillance</span> <br />
+                  <span className="text-[#FFD700] text-glow-yellow">R</span><span className="text-white">over</span>
                 </h1>
 
                 <p className="text-base sm:text-lg text-gray-300 leading-relaxed font-sans">
@@ -134,33 +192,28 @@ export default function App() {
                 </p>
               </div>
 
-              {/* Right Column: Hero Video Placeholder with expanded width (lg:col-span-8) */}
-              <div className="lg:col-span-8 relative my-8 sm:my-12">
-                <div className="relative aspect-video rounded-2xl overflow-hidden border-2 border-[#FFD700]/40 shadow-[0_0_35px_rgba(255,215,0,0.2)] bg-[#121218] group flex flex-col items-center justify-center">
-                  {heroVideo ? (
-                    <video src={heroVideo} controls className="w-full h-full object-cover" />
-                  ) : (
-                    <>
-                      {/* Video Background Image */}
-                      <img
-                        src="/robot_car_action.png"
-                        alt="Video Demo Thumbnail"
-                        className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
-                      />
+              {/* Right Column: Hero Video */}
+              <div className="lg:col-span-8 w-full flex flex-col items-center justify-center pt-6 sm:pt-10 lg:pt-14 mt-8 sm:mt-12 lg:mt-16 px-4 sm:px-8 lg:px-4">
+                <div className="w-[90%] sm:w-[85%] lg:w-full max-w-xl lg:max-w-2xl mx-auto relative aspect-video rounded-2xl overflow-hidden border-2 border-[#FFD700]/40 shadow-[0_0_35px_rgba(255,215,0,0.2)] bg-[#121218] group">
+                  <video
+                    ref={videoRef}
+                    src={demoVid}
+                    controls
+                    preload="metadata"
+                    onPlay={() => setIsPlaying(true)}
+                    onPause={() => setIsPlaying(false)}
+                    className="w-full h-full object-cover"
+                  />
 
-                      {/* Center Play Button Overlay */}
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/20 transition-colors z-10">
-                        <label className="cursor-pointer w-20 h-20 rounded-full bg-[#FFD700] text-black flex items-center justify-center hover:scale-110 transition-transform shadow-[0_0_30px_#FFD700]">
-                          <Play className="w-8 h-8 fill-black ml-1" />
-                          <input
-                            type="file"
-                            accept="video/*"
-                            className="hidden"
-                            onChange={handleVideoUpload}
-                          />
-                        </label>
-                      </div>
-                    </>
+                  {!isPlaying && (
+                    <div
+                      onClick={handlePlay}
+                      className="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/30 transition-colors z-10 cursor-pointer"
+                    >
+                      <button className="w-20 h-20 rounded-full bg-[#FFD700] text-black flex items-center justify-center hover:scale-110 transition-transform shadow-[0_0_30px_#FFD700]">
+                        <Play className="w-8 h-8 fill-black ml-1" />
+                      </button>
+                    </div>
                   )}
                 </div>
               </div>
@@ -188,126 +241,21 @@ export default function App() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               <div className="lg:col-span-12 space-y-4 text-gray-300 text-base sm:text-lg leading-relaxed font-sans">
                 <p>
-                  Smart Surveillance Rover သည် Wi-Fi ဖြင့် အဝေးမှထိန်းချုပ်နိုင်ပြီး Real-time Video Streaming ပြုလုပ်နိုင်သော Mobile Surveillance System ဖြစ်သည်။ ESP32-CAM ကို အသုံးပြု၍ Live Video ကြည့်ရှုနိုင်ပြီး L298N Motor Driver နှင့် TT Gear Motors ၄ လုံး ဖြင့် Rover ၏ ရှေ့၊ နောက်၊ ဘယ်၊ ညာ လှုပ်ရှားမှုများကို ထိန်းချုပ်နိုင်သည်။
+                  ဒီ project မာ အဓိကကားမောင်းဖိုနိုင်အတွက် L298N motor driver နှင့် dc motors များကိုသုံးထားပါသည်။ Video recording အတွက်သီးသန့် camera မတပ်ဘဲ camera module ပါပြီးသား ESP32 ကိုဘဲသုံးထားပြီးမောင်းဖို ကိုArduino IDE မာ C++ နဲ့ရေးပြီး၊  html,css,javascript,python ကိုvscode နဲ့ ရေးပီး web serverတစ်ခုအဖြစ်ရေးထားပါတယ်။ Video live-streaming အပြင် CCTV လို record တွေပါသိမ်းလိုရအောင် database လည်းတည်ဆောက်ထားပါတယ်၊ ထို frontend နှင့် database ချိတ်ဆက်မိဖို HTTP API လိုသည့်အတွက် Python ကိုသုံးပြီးချိတိထားပါတယ်။ ကားမောင်းဖိုဆိုလျှင်
+ <br /><br />(၁) ESP32 မှ hotspot လွှင့်ထားသော wifi ကိုချိတ်ပါ (eg name - pioneer,pio)wifi passwordကိုရိုက်ပါ
+ <br />(၂) ဒီ URL link 127.0.01:8000 ကို copy ပြီး browser မှာrunလိုက်ပါ။ web page တခုပေါ်လာပီး Username: **** နဲ့ password: ***** ထည့်လိုက်ပြီးရင် controller ပါတဲ့ page ရှိရောက်ရှိသွားပြီး ကားကိုထိန်းချုပ်မောင်းနှင်နိုင်ပါပြီ။
                 </p>
               </div>
 
-              {/* Picture Placeholders */}
-              <div className="lg:col-span-12 space-y-4 pt-4">
-                <div
-                  className="grid grid-cols-1 md:grid-cols-2"
-                  style={{ gap: '2rem' }}
-                >
-                  {/* Placeholder 1 */}
-                  <div
-                    className="bg-[#0b0b10] border-2 border-dashed border-[#FFD700]/40 hover:border-[#FFD700] rounded-2xl space-y-4 transition-all group"
-                    style={{ padding: '1.5rem' }}
-                  >
-                    <div className="relative aspect-video rounded-xl overflow-hidden bg-black/60 border border-[#222232] flex flex-col items-center justify-center group/img">
-                      {picture1 ? (
-                        <>
-                          <img src={picture1} alt="Project Placeholder 1" className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-500" />
-                          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center gap-3">
-                            <label className="cursor-pointer bg-[#FFD700] text-black text-xs font-bold px-3 py-2 rounded-lg flex items-center gap-1.5 hover:bg-[#ffe033] shadow-lg">
-                              <Upload className="w-4 h-4" />
-                              <span>Replace Image</span>
-                              <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(e, 1)} />
-                            </label>
-                          </div>
-                        </>
-                      ) : (
-                        <label className="cursor-pointer flex flex-col items-center justify-center p-6 text-center text-gray-400 hover:text-[#FFD700] transition-colors">
-                          <Camera className="w-10 h-10 mb-2 text-[#FFD700] animate-bounce" />
-                          <span className="text-xs font-mono font-bold text-white">Click to Upload Picture 1</span>
-                          <span className="text-[11px] text-gray-500 mt-1">Recommended size: 1920x1080 (PNG, JPG)</span>
-                          <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(e, 1)} />
-                        </label>
-                      )}
-                    </div>
-                  </div>
-
-{/* Placeholder 1 */}
-                  <div
-                    className="bg-[#0b0b10] border-2 border-dashed border-[#FFD700]/40 hover:border-[#FFD700] rounded-2xl space-y-4 transition-all group"
-                    style={{ padding: '1.5rem' }}
-                  >
-                    <div className="relative aspect-video rounded-xl overflow-hidden bg-black/60 border border-[#222232] flex flex-col items-center justify-center group/img">
-                      {picture1 ? (
-                        <>
-                          <img src={picture1} alt="Project Placeholder 1" className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-500" />
-                          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center gap-3">
-                            <label className="cursor-pointer bg-[#FFD700] text-black text-xs font-bold px-3 py-2 rounded-lg flex items-center gap-1.5 hover:bg-[#ffe033] shadow-lg">
-                              <Upload className="w-4 h-4" />
-                              <span>Replace Image</span>
-                              <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(e, 1)} />
-                            </label>
-                          </div>
-                        </>
-                      ) : (
-                        <label className="cursor-pointer flex flex-col items-center justify-center p-6 text-center text-gray-400 hover:text-[#FFD700] transition-colors">
-                          <Camera className="w-10 h-10 mb-2 text-[#FFD700] animate-bounce" />
-                          <span className="text-xs font-mono font-bold text-white">Click to Upload Picture 1</span>
-                          <span className="text-[11px] text-gray-500 mt-1">Recommended size: 1920x1080 (PNG, JPG)</span>
-                          <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(e, 1)} />
-                        </label>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Placeholder 1 */}
-                  <div
-                    className="bg-[#0b0b10] border-2 border-dashed border-[#FFD700]/40 hover:border-[#FFD700] rounded-2xl space-y-4 transition-all group"
-                    style={{ padding: '1.5rem' }}
-                  >
-                    <div className="relative aspect-video rounded-xl overflow-hidden bg-black/60 border border-[#222232] flex flex-col items-center justify-center group/img">
-                      {picture1 ? (
-                        <>
-                          <img src={picture1} alt="Project Placeholder 1" className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-500" />
-                          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center gap-3">
-                            <label className="cursor-pointer bg-[#FFD700] text-black text-xs font-bold px-3 py-2 rounded-lg flex items-center gap-1.5 hover:bg-[#ffe033] shadow-lg">
-                              <Upload className="w-4 h-4" />
-                              <span>Replace Image</span>
-                              <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(e, 1)} />
-                            </label>
-                          </div>
-                        </>
-                      ) : (
-                        <label className="cursor-pointer flex flex-col items-center justify-center p-6 text-center text-gray-400 hover:text-[#FFD700] transition-colors">
-                          <Camera className="w-10 h-10 mb-2 text-[#FFD700] animate-bounce" />
-                          <span className="text-xs font-mono font-bold text-white">Click to Upload Picture 1</span>
-                          <span className="text-[11px] text-gray-500 mt-1">Recommended size: 1920x1080 (PNG, JPG)</span>
-                          <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(e, 1)} />
-                        </label>
-                      )}
-                    </div>
-                  </div>
-                  
-                  {/* Placeholder 2 */}
-                  <div
-                    className="bg-[#0b0b10] border-2 border-dashed border-[#FFD700]/40 hover:border-[#FFD700] rounded-2xl space-y-4 transition-all group"
-                    style={{ padding: '1.5rem' }}
-                  >
-                    <div className="relative aspect-video rounded-xl overflow-hidden bg-black/60 border border-[#222232] flex flex-col items-center justify-center group/img">
-                      {picture2 ? (
-                        <>
-                          <img src={picture2} alt="Project Placeholder 2" className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-500" />
-                          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center gap-3">
-                            <label className="cursor-pointer bg-[#FFD700] text-black text-xs font-bold px-3 py-2 rounded-lg flex items-center gap-1.5 hover:bg-[#ffe033] shadow-lg">
-                              <Upload className="w-4 h-4" />
-                              <span>Replace Image</span>
-                              <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(e, 2)} />
-                            </label>
-                          </div>
-                        </>
-                      ) : (
-                        <label className="cursor-pointer flex flex-col items-center justify-center p-6 text-center text-gray-400 hover:text-[#FFD700] transition-colors">
-                          <Camera className="w-10 h-10 mb-2 text-[#FFD700] animate-bounce" />
-                          <span className="text-xs font-mono font-bold text-white">Click to Upload Picture 2</span>
-                          <span className="text-[11px] text-gray-500 mt-1">Recommended size: 1920x1080 (PNG, JPG)</span>
-                          <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(e, 2)} />
-                        </label>
-                      )}
-                    </div>
+              {/* Project Image - Centered */}
+              <div className="lg:col-span-12 w-full flex justify-center items-center pt-4">
+                <div className="w-full max-w-2xl bg-[#0b0b10] border border-[#252535] hover:border-[#FFD700]/50 rounded-2xl p-4 shadow-xl transition-all">
+                  <div className="relative aspect-video rounded-xl overflow-hidden bg-black/60 border border-[#222232] flex items-center justify-center">
+                    <img
+                      src={car}
+                      alt="Smart Surveillance Rover Car"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 </div>
               </div>
@@ -371,44 +319,30 @@ export default function App() {
               </h2>
             </div>
             <br />
+
+            
             <div
               className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"
-              style={{ gap: '1.5rem' }}
+              style={{ gap: '2rem' }}
             >
               {teamMembers.map((member) => (
                 <div
                   key={member.id}
                   className="bg-[#0b0b10] border border-[#252535] hover:border-[#FFD700]/70 rounded-2xl p-5 flex flex-col items-center text-center space-y-4 transition-all duration-300 group hover:-translate-y-1 shadow-xl"
+                  style={{ gap: '7px' }}
                 >
-                  {/* Image Placeholder */}
-                  <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden bg-black/60 border-2 border-dashed border-[#FFD700]/40 group-hover:border-[#FFD700] flex items-center justify-center transition-all group/avatar">
-                    {teamPhotos[member.id] ? (
-                      <img
-                        src={teamPhotos[member.id]}
-                        alt={member.name}
-                        className="w-full h-full object-cover group-hover/avatar:scale-105 transition-transform duration-500"
-                      />
-                    ) : (
-                      <div className="flex flex-col items-center justify-center text-gray-500 group-hover:text-[#FFD700] transition-colors">
-                        <User className="w-10 h-10 mb-1 text-[#FFD700]" />
-                        <span className="text-[10px] font-mono">Photo</span>
-                      </div>
-                    )}
-
-                    {/* Hover Upload Overlay */}
-                    <label className="absolute inset-0 bg-black/60 opacity-0 group-hover/avatar:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
-                      <Upload className="w-5 h-5 text-[#FFD700]" />
-                      <input
-                        type="file"
-                        accept="image/*"
-                        className="hidden"
-                        onChange={(e) => handleTeamPhotoUpload(e, member.id)}
-                      />
-                    </label>
+                  {/* Team Member Image */}
+                  <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden bg-[#181824] border-2 border-[#FFD700]/60 group-hover:border-[#FFD700] shadow-[0_0_15px_rgba(255,215,0,0.15)] group-hover:shadow-[0_0_20px_rgba(255,215,0,0.4)] flex items-center justify-center transition-all duration-300">
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                     
+                    />
                   </div>
 
                   {/* Member Name & Role */}
-                  <div className="space-y-1">
+                  <div className="space-y-1"  style={{ marginBottom: '14px' }}>
                     <h3 className="text-base font-bold font-['Orbitron'] text-white group-hover:text-[#FFD700] transition-colors">
                       {member.name}
                     </h3>
@@ -423,7 +357,39 @@ export default function App() {
         </section>
 
       </main>
+      <br />
+      {/* ==================== FOOTER ==================== */}
+      <footer className="w-full border-t border-[#1f1f2a] bg-[#0b0b10] pt-8 pb-16 sm:pb-20 px-4 flex justify-center items-center">
+        <div className="max-w-7xl w-full flex flex-col sm:flex-row items-center justify-center gap-4 text-center sm:text-left">
+          
+
+
+          {/* 3 khu */}
+          <div className='flex flex-col justify-center items-center mt-[10px] gap-[8px]'>
+
+            {/* TUHMB Logo */}
+          <div className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center  overflow-hidden rounded-xl mt-4">
+            <img src={hbtulogo} alt="TUHMB Logo" className="w-full h-full object-contain" />
+          </div>
+
+          {/* Footer Text */}
+          <div className='flex flex-col justify-center items-center'>
+            <div className="text-gray-300 text-sm sm:text-base font-sans tracking-wide">
+            Project by <span className="text-[#FFD700] font-semibold font-['Orbitron']">Group-3 (4-BE IT) </span> | Technological University Hmawbi (TUHMB)
+          </div>
+          <div className="text-gray-300 text-sm sm:text-base font-sans tracking-wide flex justify-center">
+           Contact Us - <span className="text-[#FFD700] font-semibold font-['Orbitron']">09972579229</span> 
+          </div>
+          </div>
+
+          </div>
+          
+
+        </div>
+      </footer>
 
     </div>
   );
 }
+
+
