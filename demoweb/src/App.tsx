@@ -84,6 +84,12 @@ const PythonIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
+const PostgresSqlIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <path d="M11.97 2c-3.14 0-5.88 1.42-7.56 3.7-.82-.28-1.75-.17-2.46.36-.88.66-1.28 1.76-1.03 2.82C.36 10.02 0 11.23 0 12.5c0 5.25 4.25 9.5 9.5 9.5 3.32 0 6.27-1.7 8.01-4.29.62.19 1.3.18 1.95-.06 1.06-.39 1.83-1.3 1.97-2.42C22.86 13.8 24 11.53 24 9c0-3.87-5.37-7-12.03-7zm-4.47 5c.69 0 1.25.56 1.25 1.25s-.56 1.25-1.25 1.25-1.25-.56-1.25-1.25S6.81 7 7.5 7zm4.47 13c-4.14 0-7.5-3.36-7.5-7.5 0-.82.14-1.61.39-2.35.48.51 1.15.85 1.9.85 1.38 0 2.5-1.12 2.5-2.5 0-.25-.04-.49-.11-.72 1.03-.49 2.19-.78 3.42-.78 3.87 0 7 3.13 7 7s-3.13 7-7 7z"/>
+  </svg>
+);
+
 interface TeamMember {
   id: number;
   name: string;
@@ -134,12 +140,15 @@ export default function App() {
       description: 'Battery Pack မှ ထွက်ရှိသော မြင့်မားသည့် ဗို့အားကို ESP32-CAM နှင့် အခြား Sensitive Electronic Subsystems များအတွက် သင့်လျော်သည့် 5V တည်ငြိမ်ဗို့အားသို့ လျှော့ချပေးပါသည်။'
     },
     {
-      name: 'Arduino IDE(C++)',
-      icon: ArduinoIcon,
-      description: 'Arduino IDEသည် ESP32-CAM ကို ပရိုဂရမ်ရေးသားပြီး ညွှန်ကြားချက်များ ပေးပို့နိုင်ရန် အသုံးပြုသော IDE တစ်ခုဖြစ်ပါသည်။'
-    },
+      name: 'FTDI Programmer',
+      icon: MotorDriverIcon,
+      description: 'FTDI Programmer သည် ကွန်ပျူတာမှ USB အချက်ပြလှိင်းများကို မိုက်ခရိုကွန်ထရိုလာများ နားလည်သော Serial (UART) ဒေတာအဖြစ် ပြောင်းလဲပေးသည်။'
+    }
+  ];
+
+  const softwareDevices = [
     {
-      name: 'HTML, CSS, JavaScript',
+      name: 'HTML,CSS,JavaScript',
       icon: WebStackIcon,
       description: 'Rover ၏ Web Dashboard Interface ကို ရေးဆွဲတည်ဆောက်ရန်နှင့် Live Video Stream ကို Browser မှတဆင့် ကြည့်ရှု ထိန်းချုပ်နိုင်ရန် အသုံးပြုထားပါသည်။'
     },
@@ -149,9 +158,14 @@ export default function App() {
       description: 'Rover ၏ Server-side Processing, Data Processing သို့မဟုတ် Image / Video Processing လုပ်ငန်းစဉ်များအတွက် အသုံးပြုထားပါသည်။'
     },
     {
-      name: 'FTDI Programmer',
-      icon: MotorDriverIcon,
-      description: 'FTDI Programmer ဆိုသည်မှာ ကွန်ပျူတာမှ USB အချက်ပြလှိင်းများကို မိုက်ခရိုကွန်ထရိုလာများ နားလည်သော Serial (UART) ဒေတာအဖြစ် ပြောင်းလဲပေးသည်။'
+      name: 'Arduino IDE',
+      icon: ArduinoIcon,
+      description: 'Arduino IDEသည် ESP32-CAM ကို ပရိုဂရမ်ရေးသားပြီး ညွှန်ကြားချက်များ ပေးပို့နိုင်ရန် အသုံးပြုသော IDE တစ်ခုဖြစ်ပါသည်။'
+    },
+    {
+      name: 'Postgres SQL',
+      icon: PostgresSqlIcon,
+      description: 'Rover ၏ Video များ၊ User metadata များနှင့် Data သိုလှောင်မှုများကို စနစ်တကျ သိမ်းဆည်းရန်နှင့် Backend API နှင့် ချိတ်ဆက် အသုံးပြုနိုင်ရန် PostgreSQL Database ကို အသုံးပြုထားပါသည်။'
     }
   ];
 
@@ -163,9 +177,9 @@ export default function App() {
     { id: 7, name: 'Zin Moe Lwin', role: 'Hardware Assembler', image: zml },
     { id: 8, name: 'Thel Thu Thu Htun', role: 'Project Designer', image: thelthu },
     { id: 9, name: 'Thawtar Swe Zin', role: 'Project Designer', image: thawtar },
-    { id: 10, name: 'Khin Khin Kyaw', role: 'Member', image: kkk },
-    { id: 4, name: 'Hsu Pyae', role: 'Member', image: hsu },
-    { id: 5, name: 'Thant Nadi Moe Khin', role: 'Member', image: tndmk }
+    { id: 10, name: 'Khin Khin Kyaw', role: 'Researcher', image: kkk },
+    { id: 4, name: 'Hsu Pyae', role: 'Researcher', image: hsu },
+    { id: 5, name: 'Thant Nadi Moe Khin', role: 'Researcher', image: tndmk }
   ];
 
   return (
@@ -188,7 +202,7 @@ export default function App() {
                 </h1>
 
                 <p className="text-base sm:text-lg text-gray-300 leading-relaxed font-sans">
-                  SSR is a wifi-controlled robot car with a camera available for real time live-streaming, like a mini moving CCTV.
+                  SSR is a wifi-controlled robot car with a camera available for real time live-streaming and video recording, like a mini moving CCTV.
                 </p>
               </div>
 
@@ -241,9 +255,9 @@ export default function App() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               <div className="lg:col-span-12 space-y-4 text-gray-300 text-base sm:text-lg leading-relaxed font-sans">
                 <p>
-                  ဒီ project မာ အဓိကကားမောင်းဖိုနိုင်အတွက် L298N motor driver နှင့် dc motors များကိုသုံးထားပါသည်။ Video recording အတွက်သီးသန့် camera မတပ်ဘဲ camera module ပါပြီးသား ESP32 ကိုဘဲသုံးထားပြီးမောင်းဖို ကိုArduino IDE မာ C++ နဲ့ရေးပြီး၊  html,css,javascript,python ကိုvscode နဲ့ ရေးပီး web serverတစ်ခုအဖြစ်ရေးထားပါတယ်။ Video live-streaming အပြင် CCTV လို record တွေပါသိမ်းလိုရအောင် database လည်းတည်ဆောက်ထားပါတယ်၊ ထို frontend နှင့် database ချိတ်ဆက်မိဖို HTTP API လိုသည့်အတွက် Python ကိုသုံးပြီးချိတိထားပါတယ်။ ကားမောင်းဖိုဆိုလျှင်
- <br /><br />(၁) ESP32 မှ hotspot လွှင့်ထားသော wifi ကိုချိတ်ပါ (eg name - pioneer,pio)wifi passwordကိုရိုက်ပါ
- <br />(၂) ဒီ URL link 127.0.01:8000 ကို copy ပြီး browser မှာrunလိုက်ပါ။ web page တခုပေါ်လာပီး Username: **** နဲ့ password: ***** ထည့်လိုက်ပြီးရင် controller ပါတဲ့ page ရှိရောက်ရှိသွားပြီး ကားကိုထိန်းချုပ်မောင်းနှင်နိုင်ပါပြီ။
+               ဒီ project မှာ အဓိကကားမောင်းနိုင်ဖိုအတွက် L298N motor driver နှင့် dc motors များကိုသုံးထားပါသည်။ Video recording အတွက်သီးသန့် camera မတပ်ဘဲ camera module ပါပြီးသား ESP32 ကိုဘဲသုံးထားပါသည်။ ကားမောင်းဖိုအတွက် code ကို Arduino IDE မှာ C++ နဲ့ရေးထားပီး virtual controller နဲ့ live stream, video recording လုပ်မည့်web page အတွက်ကို VScode မှာဘဲ html,css,javascriptသုံးပီးရေးထားသည်။ Video များကိုသိမ်းဆည်းဖိုအတွက် Database ကို Postgres SQL သုံးထားပီး ၊ frontend နှင့် database ချိတ်ဆက်မိဖို HTTP API လိုသည့်အတွက် backend ကို Python သုံးပြီးချိတိထားပါသည်။ ကားမောင်းဖိုဆိုလျှင်-
+ <br />(1)ESP32 မှ hotspot လွှင့်ထားသော wifi ကိုချိတ်ပါ (Name - Pio) ,wifi passwordကိုရိုက်ပါ
+ <br />(2)ဒီ URL link 127.0.01:8000 ကို copy ပြီး browser မှာrunလိုက်ပါ။ web page တခုပေါ်လာပီး Username: ** , Password:**, Car ID:****, ကိုကြိုက်နှစ်သက်ရာထည့်လိုက်ပြီးရင် controller ပါတဲ့ page ရှိရောက်ရှိသွားပြီး ကားကိုထိန်းချုပ်မောင်းနှင်နိုင်ပါပြီ။
                 </p>
               </div>
 
@@ -272,7 +286,7 @@ export default function App() {
           >
             <div className="border-b border-[#222232] pb-8 pt-4 text-center mb-8">
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-['Orbitron'] text-white">
-                အသုံးပြုထားသော Hardware & software အပိုင်းများ
+                အသုံးပြုထားသော Hardware အပိုင်းများ
               </h2>
             </div>
             <br />
@@ -307,7 +321,50 @@ export default function App() {
         </section>
         <br /><br />
 
-        {/* ==================== 4. OUR TEAM MEMBERS SECTION ==================== */}
+        {/* ==================== 4. SOFTWARE DEVICES SECTION ==================== */}
+        <section id="software-devices" className="w-full my-12 sm:my-16 flex justify-center px-4 sm:px-6 lg:px-8">
+          <div
+            className="w-full max-w-7xl bg-[#13131c] border border-[#252535] hover:border-[#FFD700]/50 rounded-3xl shadow-2xl transition-all duration-300"
+            style={{ padding: '3rem 2.5rem' }}
+          >
+            <div className="border-b border-[#222232] pb-8 pt-4 text-center mb-8">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-['Orbitron'] text-white">
+                အသုံးပြုထားသော Software များ
+              </h2>
+            </div>
+            <br />
+            <div
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+              style={{ gap: '2rem' }}
+            >
+              {softwareDevices.map((device, idx) => {
+                const IconComponent = device.icon;
+                return (
+                  <div
+                    key={idx}
+                    className="bg-[#0b0b10] border border-[#252535] hover:border-[#FFD700]/70 rounded-2xl transition-all duration-300 space-y-5 group hover:-translate-y-1 shadow-xl flex flex-col justify-between"
+                    style={{ padding: '2.5rem' }}
+                  >
+                    <div className="space-y-4">
+                      <div className="w-16 h-16 rounded-2xl bg-[#1e1c10] border border-[#FFD700]/30 flex items-center justify-center text-[#FFD700] group-hover:bg-[#FFD700] group-hover:text-black transition-colors mb-4">
+                        <IconComponent className="w-8 h-8" />
+                      </div>
+                      <h3 className="text-xl sm:text-2xl font-bold font-['Orbitron'] text-white group-hover:text-[#FFD700] transition-colors leading-snug">
+                        {device.name}
+                      </h3>
+                      <p className="text-gray-300 text-sm sm:text-base leading-relaxed font-sans pt-2">
+                        {device.description}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+        <br /><br />
+
+        {/* ==================== 5. OUR TEAM MEMBERS SECTION ==================== */}
         <section id="team" className="w-full my-12 sm:my-16 flex justify-center px-4 sm:px-6 lg:px-8">
           <div
             className="w-full max-w-7xl bg-[#13131c] border border-[#252535] hover:border-[#FFD700]/50 rounded-3xl shadow-2xl transition-all duration-300"
